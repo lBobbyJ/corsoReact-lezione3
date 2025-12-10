@@ -1,34 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
+import Card from './components/Card'
+import AddBookForm from './components/AddBookForm'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  // Lazy init
+  const [books, setBooks] = useState(() => {
+    const savedBooks = localStorage.getItem("books");
+    return savedBooks ? JSON.parse(savedBooks) : [];
+  });
+
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("books", JSON.stringify(books));
+  }, [books]);
+
+  const handleAddBook = (newBook) => {
+    setBooks(prev => [...prev, newBook]);
+    setMessage(`Hai aggiunto '${newBook.title}' alla raccolta`);
+    setTimeout(() => setMessage(""), 2500);
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className='app'>
+      <h1>Gestione Libri</h1>
+      <AddBookForm onAdd={handleAddBook} />
+
+      <div className='cards-container'>
+        {books.length > 0 ? (
+          books.map(book => <Card key={book.id} {...book} />)
+        ) : (
+          <p>Nessun libro aggiunto alla raccolta</p>
+        )}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+
+      {(message) && <p className='success'>{message}</p>}
+    </div>
   )
 }
 
