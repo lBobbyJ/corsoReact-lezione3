@@ -2,7 +2,7 @@
   padding: 16px;
   border-radius: 10px;
   border: 1px solid #ccc;
-  width: 150px;
+  width: 200px;
   background-color: #1a1a1a;
   color: white;
   transition: transform 0.25s ease-in-out;
@@ -11,3 +11,4 @@
 .card:hover {
   transform: scale(1.05);
 }
+

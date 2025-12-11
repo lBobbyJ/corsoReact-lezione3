@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Card from './components/Card'
 import AddBookForm from './components/AddBookForm'
+import FilterBar from './components/FilterBar'
 import './App.css'
 
 function App() {
@@ -13,6 +14,12 @@ function App() {
 
   const [message, setMessage] = useState("");
 
+  const [filters, setFilters] = useState({
+    author: 'tutti',
+    year : 'tutti',
+    sort: false
+  });
+
   useEffect(() => {
     localStorage.setItem("books", JSON.stringify(books));
   }, [books]);
@@ -23,17 +30,33 @@ function App() {
     setTimeout(() => setMessage(""), 2500);
   }
 
+  const handleDelete = (id) => {
+    setBooks((prev) => {
+      return prev.filter(book => book.id !== id);
+    });
+  }
+
+  const handleAddFilters = (newFilters) => {
+    setFilters(prev => [...prev, newFilters]);
+  }
+
+
   return (
     <div className='app'>
       <h1>Gestione Libri</h1>
-      <AddBookForm onAdd={handleAddBook} />
-
+      <AddBookForm onAdd={handleAddBook} filters={filters} />
+      <FilterBar onChange={handleAddFilters} />
       <div className='cards-container'>
         {books.length > 0 ? (
-          books.map(book => <Card key={book.id} {...book} />)
+          books.map(book => <Card key={book.id} {...book} onDelete={handleDelete}/>)
         ) : (
           <p>Nessun libro aggiunto alla raccolta</p>
         )}
+        {/* {books.length > 0 ? (
+          books.map(book => <Card key={book.id} {...book} onDelete={handleDelete}/>)
+        ) : (
+          <p>Nessun libro aggiunto alla raccolta</p>
+        )} */}
       </div>
 
       {(message) && <p className='success'>{message}</p>}

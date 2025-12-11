@@ -1,0 +1,62 @@
+.container-filters {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 100px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    width: 100%;
+    padding: 20px;
+    background-color: #1a1a1a;
+}
+
+.filter {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input {
+    height: 28px;
+}
+
+
+.toggle-btn {
+    position: relative;
+    background-color: #b7b9ba;
+    border: 1px solid #aaa;
+    border-radius: 100px;
+    width: 50px;
+    height: 28px;
+    transition: background-color 0.1s ease, border-color 0.2s ease;
+    cursor: pointer;
+    box-shadow: 1px 1px 10px rgb(0, 0, 0, 0.75);
+}
+
+.toggle-btn:hover {
+    border-color: #6f6f6f;
+}
+
+.toggle-btn .thumb {
+    position: absolute;
+    left: 3px;
+    top: 50%;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border-radius: 100%;
+    transform: translateX(0) translateY(-50%);
+    transition: left 0.15s ease;
+    box-shadow: 0 0 1px #1a1a1a;
+}
+
+.toggle-btn.toggled {
+    background-color: #008f39;
+}
+
+.toggle-btn.toggled .thumb {
+    left: 25px;
+}

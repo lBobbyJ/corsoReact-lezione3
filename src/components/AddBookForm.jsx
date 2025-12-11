@@ -52,7 +52,7 @@ export default function AddBookForm({ onAdd }) {
                 required
             />
 
-            <button type="submit">Aggiungi libro</button>
+            <button className="btn" type="submit">Aggiungi libro</button>
         </form>
     );
 }
