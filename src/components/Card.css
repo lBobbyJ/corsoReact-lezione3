@@ -3,6 +3,7 @@
   border-radius: 10px;
   border: 1px solid #ccc;
   width: 200px;
+  height: 315px;
   background-color: #1a1a1a;
   color: white;
   transition: transform 0.25s ease-in-out;
@@ -11,4 +12,5 @@
 .card:hover {
   transform: scale(1.05);
 }
+
 

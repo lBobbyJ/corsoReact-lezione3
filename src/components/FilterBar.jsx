@@ -1,21 +1,13 @@
 import { useState } from 'react';
 import './FilterBar.css'
 
-export default function FilterBar({ onChange }) {
-    const [filtersData, setFiltersData] = useState({
-        author: 'tutti',
-        year: 'tutti',
-        sort: false
-    });
+export default function FilterBar({ filters, onChangeFilters }) {
+    const handleClick = () => {
+        const toggleValue = !filters.sort;
+        onChangeFilters(prev => ({ ...prev, sort: toggleValue }));
+    }
 
-    const [toggled, setToggled] = useState(false);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFiltersData(prev => ({ ...prev, [name]: value }));
-        onChange({ ...filtersData });
-    };
-
+    
     return (
         <div className='container-filters'>
             <div className='filter'>
@@ -23,8 +15,8 @@ export default function FilterBar({ onChange }) {
                 <input
                     type="text"
                     name='author'
-                    placeholder=''
-                    onChange={handleChange}
+                    value={filters.author}
+                    onChange={(e) => onChangeFilters(prev => ({ ...prev, author: e.target.value }))}
                 />
             </div>
             <div className='filter'>
@@ -32,13 +24,13 @@ export default function FilterBar({ onChange }) {
                 <input
                     type="number"
                     name='year'
-                    placeholder=''
-                    onChange={handleChange}
+                    value={filters.year}
+                    onChange={(e) => onChangeFilters(prev => ({ ...prev, year: e.target.value }))}
                 />
             </div>
             <div className='filter'>
                 <label name='sort'>Ordine alfabetico</label>
-                <button className={`toggle-btn ${toggled ? 'toggled' : ''}`} onClick={() => setToggled(!toggled)}>
+                <button className={`toggle-btn ${filters.sort ? 'toggled' : ''}`} onClick={handleClick}>
                     <div className='thumb'></div>
                 </button>
             </div>

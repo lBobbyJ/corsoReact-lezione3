@@ -1,5 +1,7 @@
 .container-filters {
     display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
     justify-content: space-around;
     margin-top: 100px;
     border: 1px solid #ccc;
@@ -13,6 +15,28 @@
     display: flex;
     flex-direction: column;
     align-items: start;
+}
+
+@media (max-width: 1024px) {
+    .container-filters {
+        justify-content: center;
+        gap: 15px
+    }
+}
+
+@media (max-width: 1024px) {
+    .container-filters {
+        justify-content: start;
+        gap: 50px;
+        row-gap: 15px;
+    }
+}
+
+@media (max-width: 425px) {
+    .container-filters {
+        padding: 12px;
+        gap: 15px;
+    }
 }
 
 label {

@@ -15,10 +15,38 @@ function App() {
   const [message, setMessage] = useState("");
 
   const [filters, setFilters] = useState({
-    author: 'tutti',
-    year : 'tutti',
+    author: '',
+    year: '',
     sort: false
   });
+
+  const filteredBooks = books
+    .filter(book => {
+      if (filters.author.trim() !== '') {
+        return book.author
+          .toLowerCase()
+          .includes(filters.author.trim().toLowerCase());
+      }
+      return true;
+    })
+    .filter(book => {
+      if (filters.year !== '') {
+        return String(book.year).includes(filters.year);
+      }
+      return true;
+    });
+
+  const sortedBooks = [...filteredBooks];
+  if (filters.sort) {
+    sortedBooks.sort((a, b) =>
+      a.title.localeCompare(b.title)
+    )
+  } 
+  // else {
+  //   sortedBooks.sort((a, b) =>
+  //     b.title.localeCompare(a.title)
+  //   )
+  // }
 
   useEffect(() => {
     localStorage.setItem("books", JSON.stringify(books));
@@ -36,21 +64,17 @@ function App() {
     });
   }
 
-  const handleAddFilters = (newFilters) => {
-    setFilters(prev => [...prev, newFilters]);
-  }
-
 
   return (
     <div className='app'>
       <h1>Gestione Libri</h1>
-      <AddBookForm onAdd={handleAddBook} filters={filters} />
-      <FilterBar onChange={handleAddFilters} />
+      <AddBookForm onAdd={handleAddBook} />
+      <FilterBar filters={filters} onChangeFilters={setFilters} />
       <div className='cards-container'>
-        {books.length > 0 ? (
-          books.map(book => <Card key={book.id} {...book} onDelete={handleDelete}/>)
+        {sortedBooks.length > 0 ? (
+          sortedBooks.map(book => <Card key={book.id} {...book} onDelete={handleDelete} />)
         ) : (
-          <p>Nessun libro aggiunto alla raccolta</p>
+          <p>Nessun libro trovato</p>
         )}
         {/* {books.length > 0 ? (
           books.map(book => <Card key={book.id} {...book} onDelete={handleDelete}/>)
